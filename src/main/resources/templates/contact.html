@@ -19,7 +19,7 @@ Author URL: http://w3layouts.com
 <body>
 
 <!-- header -->
-<div th:replace="header :: header">...</div>
+<div th:replace="~{header :: header}">...</div>
 <!-- //header -->
 
 <!-- inner banner -->
@@ -50,7 +50,7 @@ Author URL: http://w3layouts.com
             <div class="row">
               <div class="col-sm-6">
                 <input type="text" name="name" id="name" placeholder="Your Name"
-                       class="contact-input" />
+                       class="contact-input" required />
               </div>
               <div class="col-sm-6">
                 <input type="text" name="mobileNum" id="mobileNum" placeholder="Your Mobile Number"
@@ -124,7 +124,7 @@ Author URL: http://w3layouts.com
 <!-- //contact block -->
 
 <!-- footer block -->
-<div th:replace="footer :: footer">...</div>
+<div th:replace="~{footer :: footer}">...</div>
 <!-- //footer block -->
 
 <!-- Js scripts -->
