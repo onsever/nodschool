@@ -7,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,8 +30,6 @@ public class ContactService {
         boolean isDataSaved = false;
 
         contact.setStatus(Constants.OPEN);
-        contact.setCreatedBy(Constants.ANONYMOUS);
-        contact.setCreatedAt(LocalDateTime.now());
 
         Contact savedContact = this.contactRepository.save(contact);
 
@@ -47,15 +44,13 @@ public class ContactService {
         return this.contactRepository.findByStatus(Constants.OPEN);
     }
 
-    public boolean updateMessageStatus(int contactId, String updatedBy) {
+    public boolean updateMessageStatus(int contactId) {
         boolean isUpdated = false;
 
         Optional<Contact> contact = this.contactRepository.findById(contactId);
 
         contact.ifPresent(cObj -> {
             cObj.setStatus(Constants.CLOSE);
-            cObj.setUpdatedBy(updatedBy);
-            cObj.setUpdatedAt(LocalDateTime.now());
         });
 
         Contact updatedContact = this.contactRepository.save(contact.get());

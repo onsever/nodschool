@@ -4,7 +4,6 @@ import com.onurcansever.nodschool.model.Contact;
 import com.onurcansever.nodschool.service.ContactService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -53,8 +52,8 @@ public class ContactController {
     }
 
     @RequestMapping(value = "/closeMessage", method = RequestMethod.GET)
-    public String closeMessage(@RequestParam int id, Authentication authentication) {
-        this.contactService.updateMessageStatus(id, authentication.getName());
+    public String closeMessage(@RequestParam int id) {
+        this.contactService.updateMessageStatus(id);
         return "redirect:/displayMessages";
     }
 
