@@ -4,6 +4,7 @@ import com.onurcansever.nodschool.model.Contact;
 import com.onurcansever.nodschool.service.ContactService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.List;
 
 @Controller
 public class ContactController {
@@ -38,6 +41,21 @@ public class ContactController {
         this.contactService.saveContactForm(contact);
 
         return "redirect:/contact"; // Invoking contact action again.
+    }
+
+    @RequestMapping(value = "/displayMessages", method = RequestMethod.GET)
+    public ModelAndView displayMessages(Model model) {
+        List<Contact> contactMessages = this.contactService.findMessagesWithOpenStatus();
+        ModelAndView modelAndView = new ModelAndView("messages.html");
+        modelAndView.addObject("contactMessages", contactMessages);
+
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/closeMessage", method = RequestMethod.GET)
+    public String closeMessage(@RequestParam int id, Authentication authentication) {
+        this.contactService.updateMessageStatus(id, authentication.getName());
+        return "redirect:/displayMessages";
     }
 
 }
