@@ -56,4 +56,12 @@ public class User extends BaseEntity {
     @Size(min = 6, message = "Confirm Password must be at least 6 characters!")
     @Transient
     private String confirmPassword;
+
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Address.class)
+    @JoinColumn(name = "address_id", referencedColumnName = "addressId", nullable = true)
+    private Address address;
+
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST, targetEntity = Roles.class)
+    @JoinColumn(name = "role_id", referencedColumnName = "roleId", nullable = false)
+    private Roles roles;
 }
