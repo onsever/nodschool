@@ -28,6 +28,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests((requests) -> requests.requestMatchers(mvcMatcherBuilder.pattern("/dashboard")).authenticated()
                         .requestMatchers(mvcMatcherBuilder.pattern("/displayMessages")).hasRole("ADMIN")
                         .requestMatchers(mvcMatcherBuilder.pattern("/closeMessage/**")).hasRole("ADMIN")
+                        .requestMatchers(mvcMatcherBuilder.pattern("/displayProfile")).authenticated()
+                        .requestMatchers(mvcMatcherBuilder.pattern("/updateProfile")).authenticated()
                         .requestMatchers(mvcMatcherBuilder.pattern("/createUser")).permitAll()
                         .requestMatchers(mvcMatcherBuilder.pattern("")).permitAll()
                         .requestMatchers(mvcMatcherBuilder.pattern("/")).permitAll()
