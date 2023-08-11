@@ -7,10 +7,15 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
-@Data
+import java.util.HashSet;
+import java.util.Set;
+
+@Getter
+@Setter
 @Entity
 @FieldsValueMatch.List(value = {
         @FieldsValueMatch(
@@ -64,4 +69,20 @@ public class User extends BaseEntity {
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST, targetEntity = Roles.class)
     @JoinColumn(name = "role_id", referencedColumnName = "roleId", nullable = false)
     private Roles roles;
+
+    @ManyToOne(fetch = FetchType.LAZY) // During the creation of the user, we are not going to create class related.
+    @JoinColumn(name = "class_id", referencedColumnName = "classId", nullable = true)
+    private SchoolClass schoolClass;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @JoinTable(
+            name = "user_courses",
+            joinColumns = {
+                    @JoinColumn(name = "user_id", referencedColumnName = "userId")
+            },
+            inverseJoinColumns = {
+                    @JoinColumn(name = "course_id", referencedColumnName = "courseId")
+            }
+    )
+    private Set<Courses> courses = new HashSet<>();
 }
